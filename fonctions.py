@@ -8,14 +8,14 @@ class Sin(Expression):
     """Expression representant sin(u)."""
 
     # Votre code ici (remplacer le "pass" par votre implementation)
-    def __init__(self, function : "Polynome"):
+    def __init__(self, function : "Expression"):
         self.function = function
     
     def evaluer(self, x):
         return math.sin(self.function.evaluer(x))
 
     def deriver(self):
-        return Cos(self.function)
+        return Multiplication(Cos(self.function), self.function.deriver())
     
     def __str__(self):
         return f"sin({self.function})"
@@ -24,14 +24,14 @@ class Cos(Expression):
     """Expression representant cos(u)."""
 
     # Votre code ici (remplacer le "pass" par votre implementation)
-    def __init__(self, function : "Polynome"):
+    def __init__(self, function : "Expression"):
         self.function = function
     
     def evaluer(self, x):
         return math.cos(self.function.evaluer(x))
 
     def deriver(self):
-        return Sin(Multiplication(Polynome([-1]),self.function))
+        return Multiplication(Polynome([-1]), Multiplication(Sin(self.function), self.function.deriver()))
     
     def __str__(self):
         return f"cos({self.function})"
@@ -41,14 +41,14 @@ class Exp(Expression):
     """Expression representant exp(u)."""
 
     # Votre code ici (remplacer le "pass" par votre implementation)
-    def __init__(self, function : "Polynome"):
+    def __init__(self, function : "Expression"):
         self.function = function
     
     def evaluer(self, x):
         return math.e**(self.function.evaluer(x))
 
     def deriver(self):
-        return Exp(self.function)
+        return Multiplication(self.function.deriver(), Exp(self.function))
     
     def __str__(self):
         return f"e^({self.function})"
