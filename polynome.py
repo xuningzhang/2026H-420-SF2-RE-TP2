@@ -20,27 +20,40 @@ class Polynome(Expression):
     
     def __str__(self):
         expression = ""
-        for exp, coeff in enumerate(self.coeffiscients):
+        for exp, coeff in enumerate(reversed(self.coeffiscients)):
+            exp = len(self.coeffiscients) - exp - 1
             if coeff != 0:
                 match exp:
                     case 0:
-                        exp = ""
+                        temp = ""
                     case 1:
-                        exp = "x"
+                        temp = "x"
                     case _:
-                        exp = f"x^{exp}"
-                if len(expression) == 0:
-                    expression += f"{coeff}"+exp
-                elif coeff > 0:
-                    expression += f" + {coeff}"+exp
+                        temp = f"x^{exp}"
+                if expression == "":
+                    if abs(coeff) == 1 and exp != 0:
+                        temp = f"{coeff}".replace("1","") + temp
+                    else:
+                        temp = f"{coeff}{temp}"
                 else:
-                    expression += f" - {abs(coeff)}"+exp
+                    if abs(coeff) == 1 and exp == 0:
+                        temp = "1"
+                    match coeff:
+                        case 1:
+                            temp = f" + {temp}"
+                        case -1:
+                            temp = f" - {temp}"
+                        case _:
+                            if coeff > 0:
+                                temp = f" + {coeff}{temp}"
+                            else:
+                                temp = f" - {abs(coeff)}{temp}"
+                expression += temp
         if len(expression) == 0:
             expression = "0"
         return expression
 
 if __name__ == "__main__":
-    exemple = Polynome([1])
+    exemple = Polynome([-1,76,-1,-3,7])
     print(exemple.deriver())
     print(exemple)
-    x = input()
