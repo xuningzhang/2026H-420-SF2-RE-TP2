@@ -12,7 +12,9 @@ class Addition(Expression):
         return sum([function.evaluer(x) for function in [self.u, self.v]])
     
     def deriver(self):
-        return Addition(self.u.deriver(), self.v.deriver())
+        return Addition(self.u.deriver(), 
+                        self.v.deriver()
+                        )
     
     def __str__(self):
         return f"{self.u} + {self.v}"
@@ -30,7 +32,9 @@ class Multiplication(Expression):
         return self.u.evaluer(x)*self.v.evaluer(x)
     
     def deriver(self):
-        return Addition(Multiplication(self.u.deriver(), self.v), Multiplication(self.u, self.v.deriver()))
+        return Addition(Multiplication(self.u.deriver(), self.v), 
+                        Multiplication(self.u, self.v.deriver())
+                        )
     
     def __str__(self):
         return f"({self.u}) * ({self.v})"

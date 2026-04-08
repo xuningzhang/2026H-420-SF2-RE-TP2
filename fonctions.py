@@ -15,6 +15,7 @@ class Sin(Expression):
         return math.sin(self.function.evaluer(x))
 
     def deriver(self):
+        #(sin(u))' = cos(u) * (u)'
         return Multiplication(Cos(self.function), self.function.deriver())
     
     def __str__(self):
@@ -31,6 +32,7 @@ class Cos(Expression):
         return math.cos(self.function.evaluer(x))
 
     def deriver(self):
+        #(cos(u))' = -sin(u) * (u)'
         return Multiplication(Polynome([-1]), Multiplication(Sin(self.function), self.function.deriver()))
     
     def __str__(self):
@@ -48,13 +50,16 @@ class Exp(Expression):
         return math.e**(self.function.evaluer(x))
 
     def deriver(self):
+        #(e^(u))' = e^(u) * (u)'
         return Multiplication(self.function.deriver(), Exp(self.function))
     
     def __str__(self):
         return f"e^({self.function})"
 
 if __name__ == "__main__":
-    exemple = [Cos(Polynome([1,2,3])),Sin(Polynome([1,2,3])),Exp(Polynome([1,2,3]))]
+    exemple = [Cos(Polynome([1,2,3])),
+               Sin(Polynome([1,2,3])),
+               Exp(Polynome([1,2,3]))]
     for func in exemple:
         print(func)
         print(func.evaluer(1))
